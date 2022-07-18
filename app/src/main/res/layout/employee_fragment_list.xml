@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+        <import type="android.content.Context" />
+        <variable
+            name="viewModel"
+            type="com.thales.employeesapp.viewmodel.EmployeeViewModel"/>
+
+        <variable
+            name="adapter"
+            type="com.thales.employeesapp.ui.EmployeeListAdapter"/>
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.view.EmployeeFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:showIn="@layout/activity_main"
+            tools:context=".ui.view.EmployeeListFragment">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefreshList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:isRefreshing="@{viewModel.isRefreshing}"
+                app:onRefreshListener="@{() -> viewModel.loadEmployees()}"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:elevation="5dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/employeeList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="LinearLayoutManager"
+                    android:adapter="@{adapter}"
+                    tools:listitem="@layout/item_employee" />
+                <!-- app:items="@{viewModel.}"-->
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>
