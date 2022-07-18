@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Mario/AndroidStudioProjects/EmployeeApp/EmployeesApp/app/src/main/res/layout/item_employee.xml" value="0.3625" />
         <entry key="..\:/Users/Mario/AndroidStudioProjects/EmployeesApp/app/src/main/res/layout/activity_employee_list.xml" value="0.25" />
         <entry key="..\:/Users/Mario/AndroidStudioProjects/EmployeesApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/Mario/AndroidStudioProjects/EmployeesApp/app/src/main/res/layout/employee_fragment.xml" value="0.23229166666666667" />

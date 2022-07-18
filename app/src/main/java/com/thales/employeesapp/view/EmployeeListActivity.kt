@@ -35,7 +35,7 @@ class EmployeeListActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container,EmployeeListFragment(), EmployeeListFragment.TAG).commit()
             else{
-                showEmployee(EmployeeModel(id.toString().toInt(), "",0,0))
+                showEmployee(EmployeeModel(id.toString().toInt(), "",0,0, 0))
             }
         }
 

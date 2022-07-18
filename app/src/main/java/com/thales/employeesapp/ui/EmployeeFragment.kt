@@ -76,6 +76,7 @@ class EmployeeFragment : Fragment() {
         employee_name.text = mEmployee?.employee_name
         employee_salary.text = mEmployee?.employee_salary.toString()
         employee_age.text = mEmployee?.employee_age.toString()
+        employee_annual_salary.text = mEmployee?.employee_annual_salary.toString()
         activity?.runOnUiThread {
         }
     }
@@ -84,7 +85,6 @@ class EmployeeFragment : Fragment() {
 
         private val EMPLOYEE_ID = "employee_id"
 
-        /** Creates employee fragment for specific Employee ID  */
         fun forEmployee(employeeId: Int): EmployeeFragment {
             val fragment = EmployeeFragment()
             val args = Bundle()

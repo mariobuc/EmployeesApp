@@ -2,6 +2,8 @@ package com.thales.employeesapp.data.repository
 
 import android.util.Log
 import app.shimi.com.employeelist.data.persistence.db.EmployeeDao
+import com.thales.employeesapp.domain.GetEmployeeUseCase
+import com.thales.employeesapp.domain.GetEmployeesUseCase
 import com.thales.employeesapp.model.EmployeeApiClient
 import com.thales.employeesapp.model.EmployeeModel
 import kotlinx.coroutines.Dispatchers
@@ -12,6 +14,12 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class EmployeeRepository(private val api: EmployeeApiClient, val employeeDao: EmployeeDao) {
+
+    @Inject
+    lateinit var getEmployeesUseCase : GetEmployeesUseCase
+
+    @Inject
+    lateinit var getEmployeeUseCase : GetEmployeeUseCase
 
     suspend fun getEmployeesFromDB(): Flow<List<EmployeeModel>> {
         Log.d("TAG","in getEmployees")
@@ -24,17 +32,21 @@ class EmployeeRepository(private val api: EmployeeApiClient, val employeeDao: Em
     }
 
     private suspend fun storeEmployeeInDb(employee: EmployeeModel) {
-        Log.d("TAG","in storeEmployeeInDb $employee")
+        Log.d("TAG","in storeEmployeeSingleInDb $employee")
         employeeDao.insert(employee)
     }
 
     suspend fun getEmployeesFromAPI():  Flow<List<EmployeeModel>> {
 
+        var employees : List<EmployeeModel>
+
         return flow {
             val res = api.getAllEmployees()
             Log.d("TAG","in getEmployeesFromApi res =  ${res.isSuccess()}")
             if(res.isSuccess()){
-                storeEmployeesInDb(res.toEmployeeList())
+                employees = res.toEmployeeList()
+                getEmployeesUseCase.calcAnnualSalary(employees)
+                storeEmployeesInDb(employees)
             }
             emit(res.toEmployeeList())
         }.flowOn(Dispatchers.IO)
@@ -45,12 +57,14 @@ class EmployeeRepository(private val api: EmployeeApiClient, val employeeDao: Em
         return flow {
             val employee : EmployeeModel
             val response = api.getEmployee(id)
+            Log.d("TAG","in getEmployeeFromApi res =  ${response.isSuccess()}")
             (if( response.isSuccess() ){
                 employee = response.data.toEmployeeModel()
+                getEmployeeUseCase.calcAnnualSalary(employee)
                 storeEmployeeInDb(employee)
             }
             else
-                employee = EmployeeModel(0,"",0,0))!!
+                employee = EmployeeModel(0,"",0,0, 0))!!
             emit(employee)
         }.flowOn(Dispatchers.IO)
     }

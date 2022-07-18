@@ -7,6 +7,6 @@ import javax.inject.Singleton
 class EmployeeProvider @Inject constructor(){
 
         var employees: List<EmployeeModel> = emptyList()
-        var employee : EmployeeModel = EmployeeModel(0,"",0,0)
+        var employee : EmployeeModel = EmployeeModel(0,"",0,0, 0)
 
 }

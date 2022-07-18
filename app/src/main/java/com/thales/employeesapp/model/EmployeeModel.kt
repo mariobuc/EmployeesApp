@@ -13,9 +13,11 @@ data class EmployeeModel (
     @ColumnInfo(name = "name")
     val employee_name: String,
     @ColumnInfo(name = "age")
-    val employee_salary: Int,
+    var employee_salary: Int,
     @ColumnInfo(name = "salary")
-    val employee_age: Int
+    val employee_age: Int,
+    @ColumnInfo(name = "annual_salary")
+    var employee_annual_salary: Int
 )
 
 data class RestObject (
@@ -52,7 +54,8 @@ data class Data (
             id = this.id!!.toIntOrNull() ?: 0,
             employee_name = this.employeeName!!,
             employee_age = this.employeeAge!!.toIntOrNull() ?: 0,
-            employee_salary = this.employeeSalary!!.toIntOrNull() ?: 0
+            employee_salary = this.employeeSalary!!.toIntOrNull() ?: 0,
+            employee_annual_salary = 0
         )
     }
 }
@@ -84,7 +87,8 @@ data class EmployeeData (
             id = this.id!!.toIntOrNull() ?: 0,
             employee_name = this.employeeName!!,
             employee_age = this.employeeAge!!.toIntOrNull() ?: 0,
-            employee_salary = this.employeeSalary!!.toIntOrNull() ?: 0
+            employee_salary = this.employeeSalary!!.toIntOrNull() ?: 0,
+            employee_annual_salary = 0
         )
     }
 }

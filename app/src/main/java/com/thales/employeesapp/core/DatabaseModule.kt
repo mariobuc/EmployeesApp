@@ -16,7 +16,7 @@ object DatabaseModule {
 
     @Provides
     fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
-        return Room.databaseBuilder(appContext, AppDatabase::class.java, "employee-database1").build()
+        return Room.databaseBuilder(appContext, AppDatabase::class.java, "employee-database5").build()
     }
 
     @Provides
