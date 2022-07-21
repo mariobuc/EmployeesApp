@@ -15,6 +15,7 @@ import com.thales.employeesapp.view.EmployeeListActivity
 import com.thales.employeesapp.viewmodel.EmployeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.item_employee.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -65,10 +66,13 @@ class EmployeeFragment : Fragment() {
         if (bundle != null && bundle.containsKey(EMPLOYEE_ID)) {
             val id = bundle.getInt(EMPLOYEE_ID)
             lifecycleScope.launch {
-                getEmployeeUseCase(id)
-                mEmployee = employeeDao.getEmployee(id)
+                getEmployeeUseCase(id).collect{
+                    mEmployee = it
+                }
+                getEmployeeUseCase.calcAnnualSalary(mEmployee!!)
                 updateUi()
             }
+
         }
     }
 

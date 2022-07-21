@@ -13,6 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -28,6 +29,7 @@ object ApiModule {
     @Provides
     fun providesApiInterceptor() = ApiInterceptor()
 
+    @Singleton
     @Provides
     fun providesOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor,
                              apiInterceptor: ApiInterceptor
@@ -37,6 +39,7 @@ object ApiModule {
             .addInterceptor(apiInterceptor)
             .build()
 
+    @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
@@ -45,9 +48,13 @@ object ApiModule {
         .client(okHttpClient)
         .build()
 
+    @Singleton
     @Provides
-    fun provideApiService(retrofit: Retrofit): EmployeeApiClient = retrofit.create(EmployeeApiClient::class.java)
+    fun provideEmployeeApiClient(retrofit: Retrofit):EmployeeApiClient{
+        return retrofit.create(EmployeeApiClient::class.java)
+    }
 
+    @Singleton
     @Provides
     fun providesRepository(apiService: EmployeeApiClient, employeeDao: EmployeeDao) = EmployeeRepository(apiService,employeeDao)
 }

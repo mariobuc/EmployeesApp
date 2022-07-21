@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetEmployeeUseCase @Inject constructor(
     private val repository : EmployeeRepository
 ){
-    suspend operator fun invoke(id: Int) = repository.getEmployeeFromAPI(id)
+    operator fun invoke(id: Int) = repository.getEmployeeFromAPI(id)
 
     fun calcAnnualSalary(employee : EmployeeModel){
         employee.employee_annual_salary = employee.employee_salary*12

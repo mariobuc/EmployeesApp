@@ -52,20 +52,11 @@ class EmployeeRepository(private val api: EmployeeApiClient, val employeeDao: Em
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getEmployeeFromAPI(id: Int): Flow<EmployeeModel> {
-
+    fun getEmployeeFromAPI(id: Int): Flow<EmployeeModel> {
         return flow {
-            val employee : EmployeeModel
             val response = api.getEmployee(id)
             Log.d("TAG","in getEmployeeFromApi res =  ${response.isSuccess()}")
-            (if( response.isSuccess() ){
-                employee = response.data.toEmployeeModel()
-                getEmployeeUseCase.calcAnnualSalary(employee)
-                storeEmployeeInDb(employee)
-            }
-            else
-                employee = EmployeeModel(0,"",0,0, 0))!!
-            emit(employee)
+            emit(response.data.toEmployeeModel())
         }.flowOn(Dispatchers.IO)
     }
 
